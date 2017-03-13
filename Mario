@@ -5,6 +5,7 @@ import javax.sound.sampled.Clip;
 import apcs.Window;
 
 public class Mario {
+	//define variables
 	static int x = 50;
 	static int y = 346;
 	static int dx = + 0;
