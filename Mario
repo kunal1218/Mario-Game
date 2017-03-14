@@ -1,15 +1,15 @@
 package coincatcher;
-
+import apcs.Window;
 import javax.sound.sampled.Clip;
 
 import apcs.Window;
-// ive done shit
+
 public class Mario {
-	//define variables
 	static int x = 50;
-	static int y = 346;
-	static int dx = + 0;
-	static int dy = + 0;
+	static int y = 326;
+	static int rotate = 45;
+	static int dx =  0;
+	static int dy =  0;
 	static int brick1x = 252;
 	static int brick1y = 300;
 	static int brick2x =  186;
@@ -20,15 +20,18 @@ public class Mario {
 	static int titley = 40;
 	static int pipe1x = 450;
 	static int pipe1y = 320;
+	static int pipe2x = 570;
+	static int pipe2y = 295;
 	static boolean landed = false;
 	static boolean collision = false;
 	static boolean debouncingkey = false;
-	static boolean jumpup = false;
+	static boolean jumpup;
 	static boolean gravity = false;
 	static boolean jumpdown = false;
 	static boolean drawmario = false;
 	static int falldown = y = y +20;
-	static int jumpup1 = y = y  - 20;
+	static boolean stop = false;
+	static int jumpup1 = y  - 20;
 	static boolean space = false;
 	public static void main(String[] args) 
 	{
@@ -39,128 +42,105 @@ public class Mario {
 		{
 			Window.frame();
 			drawbackground();
-			djump();
 			drawgrass();
 			drawdirt(800,160);
 			drawmario(x,y);
-			movemario2();
-			jumpmario(); 
+			jumpmario();
+			drawluckyblock();
 			drawbrick1();
 			drawbrick2();
 			drawtitle();
 			mariojump_sprite();
 			warpnextscreen();
-			drawluckyblock();
 			playsoundlevel1();
 			pipedraw();
 			pipemoveright();
 			pipemoveleft();
 			moveback();
-			allcollisions();
-			movebackmario();
-			
-			
-		}
-	//test
-	
-	if(collision.Collision(this, enta))
+			drawmedpipe1();
+			medpipemoveright1();
+			medpipemoveleft1(); 
+
 			{
-		
-	}
-	private static void falldown() {
-		y = y + 20;
-		
-	}
-	private static void djump() {
-		if (Window.key.pressed("right")) { 
-		
-		}
-		if(Window.key.pressed("space")) {
-			boolean space = true;
-		}
-			
-		
-	
-		{
-		
-			
-		}
-		
-	}
-	{
-			
-		
-	}
-	private static void movebackmario() {
-		if(x == 360) {
-			if(Window.key.pressed("right")) {
-				x = x - 2;
+				if((x < 219 && x > 230)){
+					x = 110;
+					y = 240;
+
+				}
 			}
-			else
-			
-		if(x == 240) {
-			if(Window.key.pressed("right")) {
-				x = x - 0;
-		
-			}}}
-	}
-	
-
-	private static void allcollisions() {
-		
-	}
-		
-			
-		}
-		
-	
-
-	private static void moveback() {
-		if (420 < x)
 			{
-				x = x - 350;
+
+			}
+
 		}
+
+
+
 	}
-	
-	private static void pipedraw() {
-		Window.out.image("warppipe.png", pipe1x, pipe1y);
+
+
+	private static void drawmedpipe1() {
+		Window.out.image("medium pipe.png",pipe2x ,pipe2y );
 	}
 	{
 		{}
 	}
-		private static void pipemoveright() {
+	private static void medpipemoveright1() {
+		if (Window.key.pressed("right")) {
+			pipe2x = pipe2x - 5;
+		}
+	}
+	private static void medpipemoveleft1() {
+		if (Window.key.pressed("left")) {
+			pipe2x = pipe2x + 5;	
+		}
+	}
+	private static void moveback() {
+		if (350 < x)
+		{
+			x = x - 50;
+		}
+	}
+
+	private static void pipedraw() {
+		Window.out.image("warppipe.png", pipe1x, pipe1y);
+	}
+	{
+
+	}
+	private static void pipemoveright() {
 		if (Window.key.pressed("right")) {
 			pipe1x = pipe1x - 5;
 		}
-		}
-		private static void pipemoveleft() {
+	}
+	private static void pipemoveleft() {
 		if (Window.key.pressed("left")) {
 			pipe1x = pipe1x + 5;	
+		}
 	}
-	}
-	
+
 
 	private static void playsoundlevel1() {
-		 String loadClip =("Super Mario Brothers 1 Music-Main Theme & Overworld.mp3");
+		String loadClip =("Super Mario Brothers 1 Music-Main Theme & Overworld.mp3");
 		{
 			Clip clip = null;
-			
+
 		}
-		
+
 	}
 
 	private static void warpnextscreen() {
-		     
-			
-		}
+
+
+	}
 	private static void mariojump_sprite() {
 		if (Window.key.pressed("space")) {
 			Window.out.image("148298975430710.png",x ,y );
-		
-				}
-			}
-		
-	
+
+		}
+	}
+
+
 
 	private static void drawtitle() {
 		Window.out.image("Super_Mario.png",titlex,titley );
@@ -169,116 +149,90 @@ public class Mario {
 		}
 		else
 		{
-		if (x == pipe1x) {
-			if (Window.key.pressed("right")) {
-				titlex = titlex - 0;
+			if (x == pipe1x) {
+				if (Window.key.pressed("right")) {
+					titlex = titlex - 0;
+				}
 			}
 		}
-	}
-		
+
 		if (Window.key.pressed("left")) {
 			titlex = titlex + 5;
-	}
+		}
 	}
 	private static void drawbrick2() {
 		Window.out.image("Brick_Block.png", brick2x, brick2y);
 		if (Window.key.pressed("right")) {
 			brick2x = brick2x - 5;
 		}
-				if (Window.key.pressed("left")) {
+		if (Window.key.pressed("left")) {
 			brick2x = brick2x + 5;
 		}
 	}
-	
 
-		
+
+
 	private static void drawluckyblock() {
 		Window.out.image("images (1).png", luckyblock1x,luckyblock1y);
 		if (Window.key.pressed("right")) {
 			luckyblock1x = luckyblock1x - 5;
 		}
 		{
-		if (Window.key.pressed("left")) {
-			luckyblock1x = luckyblock1x + 5;
-	
-		}}
-		}
-	
+			if (Window.key.pressed("left")) {
+				luckyblock1x = luckyblock1x + 5;
+
+			}}
+	}
+
 	private static void drawbrick1()
 	{
 		Window.out.image("Brick_Block.png", brick1x, brick1y);
-		
+
 		if (Window.key.pressed("right")) {
 			brick1x = brick1x - 5;
 		}
 		if (Window.key.pressed("left")) {
-				brick1x = brick1x + 5;
+			brick1x = brick1x + 5;
 		}
 
-		}
-		{
 	}
-
-	
 
 	private static void jumpmario() 
 	{
-	if(Window.key.pressed("space")) {
-		jumpup = true;
-
-		 				}
-			
-	if (y == y - 5) {
-		jumpup = true;
-}
-	if (y == y + 5) {
-		jumpdown = true;
-	}
-}
-		
-	
-	
-
-	private static void movemario2() {
-		if (Window.key.pressed("left")) {
-			 x = x - 0;	
-		
-	
-				
-			
-	
-		
+		if(Window.key.pressed("space")) {
+			dy = - 5;
 		}
-		{
-		 if	(Window.key.pressed("right")) {
-			x = x - 3/6;
-	
-	}
-	}
-	}
-	private static void drawdirt(int width, int height) {
-		Window.out.color("brown");
-		Window.out.rectangle(100, 500, width, height);
-		
+		y = y + dy;
+		dy = dy + 1;
+
+		if(y > 346)
+			y = 346;
+		{{
 	}
 
-	private static void drawgrass() {
-		Window.out.color("green");
-		Window.out.rectangle(100, 415, 800, 10);
-	}
-		private static void drawbackground() {
-		Window.out.color("light blue");
-		Window.out.rectangle(100, 10, 800, 800);
-		
-		}
-		private static void drawmario(int x, int y) {
-			Window.out.image("retro-mario.png", x , y);
-				{
-}
-}
-		
-		}
+		if(Window.key.pressed("right")) {
+			x = x + 2;
+		}}}
+			private static void drawdirt(int width, int height) {
+				Window.out.color("brown");
+				Window.out.rectangle(100, 500, width, height);
 
+			}
+
+			private static void drawgrass() {
+				Window.out.color("green");
+				Window.out.rectangle(100, 415, 800, 10);
+			}
+			private static void drawbackground() {
+				Window.out.color("light blue");
+				Window.out.rectangle(100, 10, 800, 800);
+
+			}
+			private static void drawmario(int x, int y) {
+				Window.out.image("retro-mario.png", x , y);
+
+			}
+		}
 
 
 
