@@ -1,4 +1,4 @@
-package coincatcher;
+package MarioGame ;
 import apcs.Window;
 import javax.sound.sampled.Clip;
 
@@ -62,20 +62,12 @@ public class Mario {
 			medpipemoveleft1(); 
 
 			{
-				if((x < 219 && x > 230)){
+				if(( x > luckyblock1x && x < brick1x && y < luckyblock1y )){
 					x = 110;
 					y = 240;
-
 				}
 			}
-			{
-
-			}
-
 		}
-
-
-
 	}
 
 
