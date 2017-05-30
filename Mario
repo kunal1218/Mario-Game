@@ -75,6 +75,18 @@ public class Mario {
 			}
 		}
 	}
+	
+	private static void MoveBack() {
+	if(x > 350) {
+	v =  - 2;
+	}
+	else {
+	if(x < 200) {
+	v = 2;
+	
+		}	
+	}
+}
 	private static void killGoomba() {
 		if(jump == true) {
 			Window.key.pressed("space");
