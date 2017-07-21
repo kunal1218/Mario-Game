@@ -3,9 +3,13 @@ import apcs.Window;
 import javax.sound.sampled.Clip;
 
 public class Mario {
+	static int GKoopax = 300;
+	static int GKoopay = 372;
+	static int bushx = 100;
+	static int bushy = 387;
 	static int x = 50;
 	static int y = 326;
-	static int gx = 270;
+	static int gx = 390;
 	static int gy = 380;
 	static int livesx = 5;
 	static int livesy = 20;
@@ -15,12 +19,22 @@ public class Mario {
 	static int titlex = 125;
 	static int titley = 40;
 	static int pipe1x = 450;
-	static int pipe1y = 320;
-	static int pipe2x = 570;
+	static int pipe1y = 520;
+	static int pipe2x = 470;
 	static int pipe2y = 295;
 	static int lives = 4;
-	static int v = 150;
-	static int m = 5;
+	static int Score = 0;
+	static int v = 1;
+	static int m = 4;
+	static int scorex = 400;
+	static int scorey = 20;
+	static int xspeed = 1; 
+	static int brick1x = 250;
+	static int brick1y = 300;
+	static int brick2x =  186;
+	static int brick2y = 300;
+	static int luckyblock1x = 219;
+	static int luckyblock1y = 300;
 	static boolean gravity = false;
 	static boolean jumpdown = false;
 	static boolean drawmario = false;
@@ -38,6 +52,14 @@ public class Mario {
 	static boolean LivesScreen = false;
 	static boolean GoombaHeadHit = false;
 	static boolean jump = false;
+	static boolean continue1 = false;
+	static boolean walkingleft = false;
+	static boolean moveright = false;
+	static boolean atFlag = false;
+	static boolean InAir = false;
+	static boolean KoopaHeadHit = false;
+	static boolean MoveScreen = false;
+	static boolean pause = false;
 	public static void main(String[] args) 
 	{
 		Window.size(500, 500);
@@ -46,61 +68,231 @@ public class Mario {
 		while (true) 
 		{
 			Window.frame();
+			
 			drawbackground();
 			drawgrass();
+			DrawBush(bushx, bushy);
+			GreenKoopa();
+			Score();
+			MoveAtFlag();
 			drawdirt(800,160);
 			drawmario();
 			jumpmario();
 			drawtitle();
 			mariojump_sprite();
-			warpnextscreen();
+			MedPipeCollision();
 			playsoundlevel1();
 			pipedraw();
 			pipemoved();
 			MoveMario();
-			drawmedpipe1();
-			medpipemoved1();
-			sprint();
-			tes();
-			Goomba1();
-			Goomba1collision();
+			drawmedpipe1();                
+			medpipemoved1();              
+			sprint();                 
+			Goomba1();                
+			Goomba1collision();                                                                                     
 			Lives();
 			wallCollision();
 			GameOver();
-			livesscreen();
-			killGoomba();
-			{
-
-
+			livesScreen();
+			MoveBack();
+			drawluckyblock();
+			drawbrick1();
+			drawbrick2();
+			GreenKoopaCollision();
+			tes();
+			pause();
+		}
+	}
+	private static void pause() {
+		if(Window.key.pressed("p")){
+			pause = true;
+		}
+		else{
+		if(Window.key.pressed("o")){
+		pause = false;
+		}
+		}
+	}
+	private static void Score() {
+		Window.out.color("white");
+		Window.out.print("Score: " + Score , scorex,scorey);
+		
+	}
+	private static void DrawBush(int i, int bushy2) {
+	Window.out.image("bush.png", bushx, bushy);
+	if(pause == false){
+	if (Window.key.pressed("d")) {
+		if(pause == false){
+		if(x >= v) {
+			bushx = bushx - 5;
+		}
+		if (Window.key.pressed("a")) {
+			if(pause == false){
+		}
+			if(x >= v) {
+				bushx = bushx + 5;
 			}
 		}
 	}
-	
-	private static void MoveBack() {
-	if(x > 350) {
-	v =  - 2;
-	}
-	else {
-	if(x < 200) {
-	v = 2;
-	
-		}	
-	}
-}
-	private static void killGoomba() {
-		if(jump == true) {
-			Window.key.pressed("space");
-			}
-		}
-	private static void livesscreen() {
+}}}
+	private static void livesScreen() {
+
 		if(LivesScreen == true ) {
 			Window.out.color("light blue");
 			Window.out.rectangle(250, 250,1000 , 1000);
 			Window.out.color("red");
 			Window.out.print("lives= " + lives + " press space to continue" ,120 , 250);
+			continue1 = true;
+			GoombaHeadHit = true;
+		}
+		if(continue1 == true) {
+			if(Window.key.pressed("space")) {
+				alive = true;
+				LivesScreen = false;
+				GoombaHeadHit = false;
+				KoopaHeadHit = false;
+				x = 50;
+				gx = 390; 
+				pipe1x = 450;
+				pipe2x = 470;
+				titlex = 125;
+				GKoopax = 300;
+			}
+			else{
+				continue1 = false;
+			}}
+
+	}
+	
+					
+	private static void GreenKoopaCollision() {
+		if(alive == true) {
+			if(KoopaHeadHit == false) {			
+						if(x + 55 > GKoopax && x + 55 < GKoopax + 30 && y + 60 > GKoopay) { 
+							lives = lives - 1;
+							alive = false;
+							LivesScreen = true;
+						}
+						else{
+
+							
+							
+							}
+							if( x == GKoopax + 19 && y > 300) { 
+								lives = lives - 1;
+								alive = false;
+								LivesScreen = true;
+							}
+							{
+							if( x + 10 < GKoopax + 30 && x + 32 > GKoopax - 15 && y + 63 > GKoopay) {
+
+									KoopaHeadHit = true;
+									Score = Score + 20;
+								}
+								else{
+								if(x + 60 > GKoopax && x + 60 < GKoopax + 64 &&  y + 63 > GKoopay){
+								lives = lives - 1;
+								alive = false;
+								LivesScreen = true;
+								
+
+							
+						}
+					}
+
+		
+				}
+			}
+		}	
+
+}
+	private static void GreenKoopa() {
+		if(KoopaHeadHit == false) {
+			if(alive == true) {
+				if(pause == false){
+				Window.out.image("G_Koopa.png", GKoopax, GKoopay);
+				GKoopax = GKoopax - 3/2;
+			}			 
+			
+				if(Window.key.pressed("d")) {
+					if(pause == false){
+					GKoopax = GKoopax - 4;
+				}
+			}
+		}
+	}
+}
+
+	private static void drawbrick1() {
+
+
+		Window.out.image("Brick_Block.png", brick1x, brick1y);
+
+		if (Window.key.pressed("d")) {
+			if(pause == false){
+			if(x >= v) {
+				brick1x = brick1x - 5;
+			}
+			if (Window.key.pressed("a")) {
+				if(pause == false){
+				if(x >= v) {
+					brick1x = brick1x + 5;
+				}
+			}		
+		}
+	}
+		}}
+			private static void drawbrick2() {
+
+		Window.out.image("Brick_Block.png", brick2x, brick2y);
+		if (Window.key.pressed("d")) {
+			if(x >= v) {
+				if(pause == false){
+				brick2x = brick2x - 5;
+			}
+			if (Window.key.pressed("a")) {
+				if(pause == false){
+				if(x >= v) {
+					brick2x = brick2x + 5;
+				}}}
+			}
+		}
+	}		
+	private static void drawluckyblock() {
+		Window.out.image("luckyblock.png", luckyblock1x,luckyblock1y);
+		if (Window.key.pressed("d")) {
+			if(x >= v) {
+				if(pause == false){
+				luckyblock1x = luckyblock1x - 5;
+			}
+			{
+				if (Window.key.pressed("a")) {
+					if(x >= v) {
+						if(pause == false){
+					}
+						luckyblock1x = luckyblock1x + 5;
+					}	
+				}}
+			}
+		}
+	}
+	private static void MoveAtFlag() {
+		if(atFlag == true)
+			x = x + 5;
+		moveright = true;
+	}
+	private static void MoveBack() {
+		if(x > 350) {
+			m = -4;
+		}
+		else {
+			//	if(x < 800) {
+			//	v = 2;
 
 		}	
+		//}
 	}
+
 	// use enemy = true to stop things from moving when the enemy is too close to a pipe or etc.
 	private static void GameOver() {
 		if(lives == 0) {
@@ -130,35 +322,86 @@ public class Mario {
 
 	private static void Goomba1collision() {
 		if(alive == true) {
-		if(GoombaHeadHit == false) {
-			if(x + 55 > gx && x + 55 < gx + 30 && y + 60 > gy) { 
-				lives = lives - 1;
-				alive = false;
-				LivesScreen = true;
+			if(pause == false){
+			if(GoombaHeadHit == false) {
+				if(x + 55 > gx && x + 55 < gx + 30 && y + 60 > gy) { 
+					lives = lives - 1;
+					alive = false;
+					LivesScreen = true;
+				}
+				else{
+
+					
+					
+					}
+					if( x == gx + 19 && y > 300) { 
+						lives = lives - 1;
+						alive = false;
+						LivesScreen = true;
+					}
+					{
+						if( x + 10 < gx + 30 && x + 32 > gx - 15 && y + 63 > gy) {
+
+							GoombaHeadHit = true;
+							Score = Score + 20;
+						}
+						else{
+						if(x + 60 > gx && x + 60 < gx + + 64 &&  y + 63 > gy){
+						lives = lives - 1;
+						alive = false;
+						LivesScreen = true;
+						
+				
+							}
+						}
+					}
 				}
 			}
 		}
 	}
+
+
+
 	private static void tes() {
-//		Window.out.rectangle(gx + 30  , y, 2,2);	
+		Window.out.color("blue");
+		Window.out.rectangle(	GKoopax + 64,y +28   , 2,2);	
+		// x + 64 < pipe1x + 175
+	//	x + 60 > GKoopax && x + 60 < GKoopax + 64 &&  y + 63 > GKoopa
 
 		if(Window.key.pressed("a")){
 			if(alive == true) {
 				x = x - 2;
-		}
-	}
-}	
-	private static void MoveMario() {
-		if(Window.key.pressed("d")){
-			if(alive == true) {
-				x = x + 2;
+				walkingleft = true;
 			}
 			
+				if(Window.key.pressed("d")){
+					if(alive == true) {
+						walkingleft = false;
+			}
+		}	
+	}
+}
+	private static void MoveMario() {
+		if(pause == false){
+		if(Window.key.pressed("d")){
+			if(alive == false) {
+				x = x + xspeed;
+			
+			}
+			if(Window.key.pressed("d")){
+				if(alive == true) {
+					if(pause == false){
+				
+					gx = gx - 1;
+				}
+			}
 		}
 	}
+}
+}
 	private static void Lives() {
-
-		Window.out.print("lives: " +lives, livesx,livesy);
+		Window.out.color("white");
+		Window.out.print("lives: " +lives, livesx+10,livesy);
 	}
 	{
 		if(life = true) {
@@ -170,15 +413,22 @@ public class Mario {
 		}
 	}
 	private static void Goomba1() {
-		if(GoombaHeadHit == false) { 
+		if(GoombaHeadHit == false) {
+		if(pause == false){
 			Window.out.image("goomba.png", gx, gy);
 			gx = gx - 3/2;
+		}
+		if(Window.key.pressed("d")) {
+			if(pause == false){
+			gx = gx - 3;
+
 		}
 		if(gx > pipe1x - 30) {
 			GoombaHeadHit = true;
 		}
 	}
-	//private static void collisiontest() {
+	}
+}	//private static void collisiontest() {
 	//Window.out.color("blue");
 	//Window.out.rectangle(199, 300,10, 100);
 
@@ -200,19 +450,25 @@ public class Mario {
 
 	private static void medpipemoved1() {
 		if (Window.key.pressed("d")) {
+			
+			if(pause == false){
 			if(x >= v) {
 				pipe2x = pipe2x - m;
 			}
 		}
 	}
+	}
 	private static void pipedraw() {
 		Window.out.image("warppipe.png", pipe1x, pipe1y);
-	}
-	{
-
+		{
+			if(x == pipe1x) {
+				x = pipe1x;
+			}
+		}
 	}
 	private static void pipemoved() {
 		if (Window.key.pressed("d")) {
+			if(pause == false){
 			if(x >= v) {
 				pipe1x = pipe1x - m;
 				///if(shift=true) {
@@ -230,7 +486,7 @@ public class Mario {
 			}
 		}
 	}	
-
+	}
 	private static void playsoundlevel1() {
 		String loadClip =("Super Mario Brothers 1 Music-Main Theme & Overworld.mp3");
 		{
@@ -240,21 +496,59 @@ public class Mario {
 
 	}
 
-	private static void warpnextscreen() {
+	private static void MedPipeCollision() {
+		if(x < pipe1x) {
+			if(pause == false){
+			if(Window.key.pressed("d")) {
+				if(x > pipe1x - 30) {
+					if( y > 225) {
+						x = pipe1x - 30;
+					}
+					{
+						
+							if( x  > pipe1x) {
+							
+								if( x + 64 < pipe1x + 180) {
+								if(y > 225) {
+							x =  pipe1x + 125;
+							        MoveScreen = true;
+						}				
+						{
+							if(x > pipe1x + 33) {
+								if(x + 32 < pipe1x + 125){
+									if(y  >  225 ) {
+										y =  pipe1y - 300;
 
-
-	}
+											}
+									}
+								}			
+							
+						}
+					}
+				}	
+			}	
+		}
+			}	}}
+}
 	private static void mariojump_sprite() {
 		if(alive == true) {
-		if(canJump == false)
+			if(canJump == false)
+				if(walkingleft == false) {
 				Window.out.image("148298975430710.png",x ,y );
-
-			}
+				}
+				else{
+					if(walkingleft == true) {
+						if(canJump == false){
+							Window.out.image("148298975430710left.png",x ,y );
+						}
+					}
+				}
 		}
-	
+	}
 	private static void drawtitle() {
 		Window.out.image("Super_Mario.png",titlex,titley );
 		if (Window.key.pressed("d")) {
+			if(pause == false){
 			if(x >= v) {
 				titlex = titlex - m;
 			}
@@ -262,17 +556,20 @@ public class Mario {
 			{
 				if (x == pipe1x) {
 					if (Window.key.pressed("d")) {
+						if(pause == false){	
 						if(x >= v) {
 							titlex = titlex - 0;
+							}
 						}
 					}
 				}
-
 			}
 		}
 	}
+}
 	private static void jumpmario() {
 		if(alive == true) {
+			if(pause == false){
 			if(Window.key.pressed("space")&& canJump) {
 				dy = - 16;
 				canJump = false;
@@ -289,6 +586,7 @@ public class Mario {
 			}
 		}
 	}
+}
 	private static void drawdirt(int width, int height) {
 		Window.out.color("brown");
 		Window.out.rectangle(100, 500, width, height);
@@ -307,9 +605,18 @@ public class Mario {
 	private static void drawmario() {
 		if(alive == true) {
 			if(canJump == true) {
-				Window.out.image("retro-mario.png", x , y );
-
+				
+				if(walkingleft == false) {
+					Window.out.image("retro-mario.png", x , y );
+				}
+				else{	
+					if(walkingleft == true) {
+						if(canJump == true) { 
+							Window.out.image("retro-marioleft.png", x , y );
+								}
+							}
+						}
+					}
+				}
 			}
 		}
-	}
-}
